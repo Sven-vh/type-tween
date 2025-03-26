@@ -69,3 +69,8 @@ Source [easings.net](https://easings.net/)
 This repo contains an example.sln. This is just a simple showcase of how to use it and check if everything works as expected.
 
 ![tweening](https://github.com/user-attachments/assets/f99f15cf-258d-4095-a11e-9b0472e08be1)
+
+## Contributions & Issues
+
+It started as a simple header that I kept re-using. So I decided to share it here!
+Feel free to contribute, make issues, make pr's, if you have any suggestions!
