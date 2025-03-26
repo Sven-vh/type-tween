@@ -482,6 +482,10 @@ namespace TYPE_TWEEN_NAMEPSACE {
 			tweens.clear();
 		}
 
+		/// <summary>
+		/// Expects delta time in seconds.
+		/// </summary>
+		/// <param name="delta_time"></param>
 		void Update(float delta_time) {
 			// Update all tweens
 			for (auto& tween : tweens) {
