@@ -47,8 +47,8 @@ manager.AddTween(tween);
 
 /* In your main loop, update the manager */
 while(true){
- float deltaTime = 1.0f/60.0f;
- manager.Update(deltaTime)
+	float deltaTime = 1.0f/60.0f;
+	manager.Update(deltaTime)
 }
 ```
 
