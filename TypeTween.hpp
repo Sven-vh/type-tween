@@ -404,7 +404,7 @@ namespace TYPE_TWEEN_NAMEPSACE {
 			}
 
 			float t = 0.0f;
-			const bool prevReversePhase = reverse_phase;
+			const bool prevReversePhase = reversePhase;
 
 			// If this is the final frame (and not repeating), force t to end value.
 			if (!repeat && effectiveElapsed >= cycleDuration) {
@@ -416,12 +416,12 @@ namespace TYPE_TWEEN_NAMEPSACE {
 					// Reverse phase for yoyo: map cycleTime in [duration, cycleDuration] to t in [1, 0].
 					t = 1.0f - ((cycleTime - duration) / duration);
 					t = 1.0f - apply_ease(1.0f - t, ease);
-					reverse_phase = true;
+					reversePhase = true;
 				} else {
 					// Forward phase.
 					t = cycleTime / duration;
 					t = apply_ease(t, ease);
-					reverse_phase = false;
+					reversePhase = false;
 				}
 			}
 
@@ -434,10 +434,10 @@ namespace TYPE_TWEEN_NAMEPSACE {
 			// Notify via the on_update callback.
 			if (onUpdate) onUpdate(current, t);
 
-			if (prevReversePhase != reverse_phase && onCycleComplete) {
+			if (prevReversePhase != reversePhase && onCycleComplete) {
 				if (yoyo) {
 					// If the phase has changed (from reverse to forward), call on_cycle_complete.
-					if (!reverse_phase) {
+					if (!reversePhase) {
 						onCycleComplete(current);
 					}
 				} else {
@@ -487,7 +487,7 @@ namespace TYPE_TWEEN_NAMEPSACE {
 		ValueType* source = nullptr;
 
 		float elapsed = 0.0f;
-		bool reverse_phase = false;
+		bool reversePhase = false;
 	};
 
 	class Manager {
