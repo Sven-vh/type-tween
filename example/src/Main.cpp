@@ -1,4 +1,4 @@
-﻿#include "../../header/TypeTween.hpp"
+﻿#include "../../TypeTween.hpp"
 #include <chrono>
 #include <iostream>
 #include <string>
@@ -8,14 +8,30 @@
 
 int constexpr ProgressBarWidth = 35;
 
+/* Create a manager */
+static TypeTween::Manager manager;
+
+void DefaultExample();
+
 int main() {
-	/* Create a manager */
-	TypeTween::Manager manager;
 
-	float value = 0.0f;
-	float progress = 0.0f;
-	bool done = false;
+	DefaultExample();
 
+	auto start = std::chrono::high_resolution_clock::now();
+	while (true) {
+		/* Calculate delta time */
+		auto now = std::chrono::high_resolution_clock::now();
+		auto dt = std::chrono::duration<float>(now - start).count();
+		start = now;
+
+		/* Update the manager */
+		manager.Update(dt);
+	}
+
+	return 0;
+}
+
+void DefaultExample() {
 	float startValue = 0.0f;
 	float endValue = 10.0f;
 	float duration = 10.0f;
@@ -59,50 +75,45 @@ int main() {
 
 	/* Create a tween */
 	TypeTween::Tween<float> tween;
-	tween.From(startValue).To(endValue).Duration(duration).Easing(ease).Yoyo(yoyo).Repeat(repeat)
+	tween.From(startValue)
+		.To(endValue)
+		.Duration(duration)
+		.Easing(ease)
+		.Yoyo(yoyo)
+		.Repeat(repeat)
 		.OnUpdate(
-			[&progress, &value](const float& _value, float t) {
-				value = _value;
-				progress = t;
+			[](const float& value, float t) {
+
+				/* Showcase progress in console */
+				std::string result;
+				result += "Progress: [";
+				for (int i = 0; i < ProgressBarWidth; i++) {
+					if (t * ProgressBarWidth >= i) {
+						result += EMPTY;
+					} else {
+						result += FILLED;
+					}
+				}
+				result += "]";
+				result += " " + std::to_string(value);
+
+				/* Set cursor to start again */
+				std::cout << "\r";
+
+				/* Print the progress bar */
+				std::cout << result;
 			}
 		).OnComplete(
-			[&done](const float& value) {
-				done = true;
+			/* Will not get called if repeat is true */
+			[](const float& /*value*/) {
+				std::cout << "\nTween completed!" << std::endl;
+			}
+		).OnCycleComplete(
+			[](const float& /*value*/) {
+				std::cout << "Cycle completed!" << std::endl;
 			}
 		);
 
 	/* Add the tween to the manager */
 	manager.AddTween(tween);
-
-	auto start = std::chrono::high_resolution_clock::now();
-	while (done == false) {
-		/* Calculate delta time */
-		auto now = std::chrono::high_resolution_clock::now();
-		auto dt = std::chrono::duration<float>(now - start).count();
-		start = now;
-
-		/* Showcase progress in console */
-		std::string result;
-		result += "Progress: [";
-		for (int i = 0; i < ProgressBarWidth; i++) {
-			if (progress * ProgressBarWidth >= i) {
-				result += EMPTY;
-			} else {
-				result += FILLED;
-			}
-		}
-		result += "]";
-		result += " " + std::to_string(value);
-
-		/* Set cursor to start again */
-		std::cout << "\r";
-
-		/* Print the progress bar */
-		std::cout << result;
-
-		/* Update the manager */
-		manager.Update(dt);
-	}
-
-	return 0;
 }

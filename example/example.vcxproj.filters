@@ -20,7 +20,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\header\TypeTween.hpp">
+    <ClInclude Include="..\TypeTween.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
