@@ -31,7 +31,12 @@ TypeTween::Manager manager;
 TypeTween::Tween<float> tween;
 
 /* Set values of tween */
-tween.From(startValue).To(endValue).Duration(duration).Easing(ease).Yoyo(yoyo).Repeat(repeat)
+tween.From(startValue).
+	To(endValue).
+	Duration(duration).
+	Easing(ease).
+	Yoyo(yoyo).
+	Repeat(repeat)
 	.OnUpdate(
 		[](const float& _value, float t) {
 			std::cout << "Value: " << _value << " Time: " << t << std::endl;
@@ -54,9 +59,9 @@ while(true){
 
 ## Types
 
-Since the tween is templated, any type that has a ``+``, ``-``, and ``*`` will work.
+Since the tween is templated, any type with a ``+``, ``-``, and ``*`` operator will work.
 
-It also contains pointer support. The pointer will get updated, so there is no need for an ``OnUpdate`` callback.
+It also contains pointer support. The pointer gets updated, so there is no need for an ``OnUpdate`` callback.
 
 ## Easing
 
