@@ -376,6 +376,15 @@ namespace TYPE_TWEEN_NAMEPSACE {
 			return *this;
 		}
 
+		Tween& Append(std::unique_ptr<Tween<T>> nextTween) {
+			if (next) {
+				next->Append(std::move(nextTween));
+			} else {
+				next = std::move(nextTween);
+			}
+			return *this;
+		}
+
 		/// <summary>
 		/// Reset the tween to the start.
 		/// </summary>
@@ -391,6 +400,15 @@ namespace TYPE_TWEEN_NAMEPSACE {
 
 			// If the total elapsed time is less than the delay, do nothing.
 			if (elapsed < delay) return;
+
+			if (isDone) {
+				// If the tween is done, check if there's a next tween to continue.
+				if (next) {
+					next->Update(delta_time);
+					return;
+				}
+				return; // No next tween, so just return.
+			}
 
 			// Compute the effective elapsed time, subtracting the delay.
 			float effectiveElapsed = elapsed - delay;
@@ -449,6 +467,7 @@ namespace TYPE_TWEEN_NAMEPSACE {
 			// If not repeating and the tween has finished, call on_complete.
 			if (!repeat && effectiveElapsed >= cycleDuration) {
 				if (onComplete) onComplete(current);
+				isDone = true;
 			}
 		}
 
@@ -479,6 +498,8 @@ namespace TYPE_TWEEN_NAMEPSACE {
 		std::function<void(const ValueType&)> onComplete;
 		std::function<void(const ValueType&)> onCycleComplete;
 
+		std::unique_ptr<Tween<T>> next;
+
 		/* Internal State */
 		ValueType start{};
 		ValueType end{};
@@ -488,6 +509,7 @@ namespace TYPE_TWEEN_NAMEPSACE {
 
 		float elapsed = 0.0f;
 		bool reversePhase = false;
+		bool isDone = false;
 	};
 
 	class Manager {
