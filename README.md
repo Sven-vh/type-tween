@@ -1,4 +1,4 @@
-![alt text](.github\images\Drawings.svg)
+![alt text](https://github.com/Sven-vh/type-tween/blob/main/images/Drawings.svg)
 
 ---
 Single header C++ Tweening file
