@@ -57,6 +57,10 @@ while(true){
 }
 ```
 
+## Example
+
+![418356808-9423c988-cbf9-4073-895f-090b2c5edc1c](https://github.com/user-attachments/assets/874e9cf2-101d-4c0a-a64d-6fd9f12694da)
+
 ## Types
 
 Since the tween is templated, any type with a ``+``, ``-``, and ``*`` operator will work.
